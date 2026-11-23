@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>your-ai</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <main class="chat-shell">
+    <header class="chat-header">
+      <div class="brand">
+        <span class="brand-dot"></span>
+        <h1>your-ai</h1>
+      </div>
+      <span id="mode-badge" class="badge" title="Check /api/health">checking…</span>
+    </header>
+
+    <section id="messages" class="messages" aria-live="polite"></section>
+
+    <form id="chat-form" class="chat-form">
+      <textarea id="input" rows="1" placeholder="Type a message… (Shift+Enter for new line)" autocomplete="off"></textarea>
+      <button id="send" type="submit" aria-label="Send">➤</button>
+    </form>
+    <p class="hint">Your personal AI — chat, ask anything, generate ideas.</p>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

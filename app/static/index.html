@@ -16,13 +16,82 @@
       <span id="mode-badge" class="badge" title="Check /api/health">checking…</span>
     </header>
 
-    <section id="messages" class="messages" aria-live="polite"></section>
+    <nav class="tabs">
+      <button class="tab active" data-tab="chat">💬 Chat</button>
+      <button class="tab" data-tab="image">🎨 Image</button>
+      <button class="tab" data-tab="video">🎬 Video</button>
+      <button class="tab" data-tab="voice">🎤 Voice</button>
+      <button class="tab" data-tab="translate">🌐 Translate</button>
+    </nav>
 
-    <form id="chat-form" class="chat-form">
-      <textarea id="input" rows="1" placeholder="Type a message… (Shift+Enter for new line)" autocomplete="off"></textarea>
-      <button id="send" type="submit" aria-label="Send">➤</button>
-    </form>
-    <p class="hint">Your personal AI — chat, ask anything, generate ideas.</p>
+    <section id="tab-chat" class="tab-panel active-panel">
+      <section id="messages" class="messages" aria-live="polite"></section>
+      <form id="chat-form" class="chat-form">
+        <textarea id="input" rows="1" placeholder="Type a message… (Shift+Enter for new line)" autocomplete="off"></textarea>
+        <button type="button" id="mic" class="icon-btn" title="Voice input (browser)">🎤</button>
+        <button type="button" id="speak-toggle" class="icon-btn" title="Read replies aloud (browser)">🔇</button>
+        <button id="send" type="submit" aria-label="Send">➤</button>
+      </form>
+      <p class="hint">Chat, ask anything, generate ideas — with voice input/output built in.</p>
+    </section>
+
+    <section id="tab-image" class="tab-panel">
+      <form id="image-form" class="tool-form">
+        <label for="image-prompt">Describe the image you want</label>
+        <textarea id="image-prompt" rows="3" placeholder="A cat astronaut riding a skateboard, digital art"></textarea>
+        <div class="row">
+          <select id="image-size">
+            <option value="1024x1024">1024×1024</option>
+            <option value="1024x1792">1024×1792 (portrait)</option>
+            <option value="1792x1024">1792×1024 (landscape)</option>
+          </select>
+          <button type="submit" class="primary">Generate image</button>
+        </div>
+      </form>
+      <div id="image-result" class="media-result"></div>
+    </section>
+
+    <section id="tab-video" class="tab-panel">
+      <form id="video-form" class="tool-form">
+        <label for="video-prompt">Describe the video you want</label>
+        <textarea id="video-prompt" rows="3" placeholder="A timelapse of a sunset over the ocean, cinematic"></textarea>
+        <button type="submit" class="primary">Generate video</button>
+      </form>
+      <div id="video-result" class="media-result"></div>
+    </section>
+
+    <section id="tab-voice" class="tab-panel">
+      <div class="tool-form">
+        <label>Speak → text (uses your browser mic, no key needed)</label>
+        <div class="row">
+          <button id="voice-mic" class="primary">🎤 Start speaking</button>
+          <span id="voice-status" class="muted"></span>
+        </div>
+        <textarea id="voice-text" rows="3" placeholder="Your speech will appear here…"></textarea>
+        <label>Or send an audio file to the server (needs STT_API_KEY)</label>
+        <input type="file" id="voice-file" accept="audio/*" />
+        <button id="voice-upload" class="primary">Transcribe file</button>
+        <label>Text → speech</label>
+        <textarea id="tts-text" rows="2" placeholder="Type text to hear it spoken…"></textarea>
+        <div class="row">
+          <button id="tts-browser" class="primary">🔊 Speak (browser)</button>
+          <button id="tts-server" class="primary">🔊 Speak (server, needs key)</button>
+        </div>
+        <audio id="tts-audio" controls class="full"></audio>
+      </div>
+    </section>
+
+    <section id="tab-translate" class="tab-panel">
+      <form id="translate-form" class="tool-form">
+        <label for="translate-text">Text to translate</label>
+        <textarea id="translate-text" rows="4" placeholder="Paste any text here…"></textarea>
+        <div class="row">
+          <input id="translate-lang" type="text" value="Bengali" placeholder="Target language" />
+          <button type="submit" class="primary">Translate</button>
+        </div>
+      </form>
+      <div id="translate-result" class="result-text"></div>
+    </section>
   </main>
   <script src="/app.js"></script>
 </body>

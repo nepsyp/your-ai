@@ -11,8 +11,9 @@ def test_health():
     assert res.status_code == 200
     data = res.json()
     assert data["status"] == "ok"
-    assert "model" in data
-    assert isinstance(data["demo_mode"], bool)
+    assert "chat_model" in data
+    assert "capabilities" in data
+    assert data["capabilities"]["image"] is True
 
 
 def test_chat_demo_mode_streams():
@@ -34,6 +35,51 @@ def test_generate_demo_mode():
     res = client.post("/api/generate", json={"message": "write a haiku", "history": []})
     assert res.status_code == 200
     assert "text" in res.json()
+
+
+def test_translate_demo_mode():
+    get_settings.cache_clear()
+    res = client.post("/api/translate", json={"text": "hello world", "target_language": "Bengali"})
+    assert res.status_code == 200
+    data = res.json()
+    assert data["demo"] is True
+    assert data["text"] == "hello world"
+
+
+def test_images_demo_mode():
+    get_settings.cache_clear()
+    res = client.post("/api/images", json={"prompt": "a red house"})
+    assert res.status_code == 200
+    data = res.json()
+    assert data["demo"] is True
+    assert data["image"].startswith("data:image/svg+xml;base64,")
+
+
+def test_videos_unconfigured_returns_message():
+    get_settings.cache_clear()
+    res = client.post("/api/videos", json={"prompt": "waves crashing"})
+    assert res.status_code == 502
+    assert "VIDEO_API_KEY" in res.json()["detail"]
+
+
+def test_speech_unconfigured_returns_message():
+    get_settings.cache_clear()
+    res = client.post("/api/speech", json={"text": "hi"})
+    assert res.status_code == 502
+    assert "TTS_API_KEY" in res.json()["detail"]
+
+
+def test_transcribe_unconfigured_returns_message():
+    get_settings.cache_clear()
+    res = client.post("/api/transcribe", files={"file": ("a.webm", b"fake-audio")})
+    assert res.status_code == 502
+    assert "STT_API_KEY" in res.json()["detail"]
+
+
+def test_transcribe_empty_file_rejected():
+    get_settings.cache_clear()
+    res = client.post("/api/transcribe", files={"file": ("a.webm", b"")})
+    assert res.status_code == 422
 
 
 def test_index_served():

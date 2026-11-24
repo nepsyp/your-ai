@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>your-ai — আপনার নিজের AI</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <span class="logo">🤖</span>
+        <span class="name">your-ai</span>
+      </div>
+      <div class="topbar-actions">
+        <select id="model-select" class="model-select" title="মডেল নির্বাচন করুন">
+          <option value="mistral-small-latest">Mistral Small</option>
+          <option value="open-mistral-nemo">Mistral Nemo</option>
+          <option value="mistral-large-latest">Mistral Large</option>
+        </select>
+        <button id="new-chat-btn" class="icon-btn" title="নতুন চ্যাট">+ নতুন</button>
+        <button id="settings-btn" class="icon-btn" title="সেটিংস">⚙️</button>
+      </div>
+    </header>
+
+    <main id="chat" class="chat">
+      <div id="welcome" class="welcome">
+        <h1>স্বাগতম! 👋</h1>
+        <p>আমি আপনার নিজের AI সহকারী। নিচে যা জানতে চান লিখুন — বাংলা বা ইংরেজি যেকোনো ভাষায়।</p>
+        <div class="suggestions">
+          <button class="suggestion">বাংলাদেশ সম্পর্কে ৩টি মজার তথ্য বলো</button>
+          <button class="suggestion">একটি সহজ Python প্রোগ্রাম লিখে দাও</button>
+          <button class="suggestion">ইংরেজি শেখার সহজ উপায় কী?</button>
+          <button class="suggestion">আমাকে একটি গল্প বলো</button>
+        </div>
+      </div>
+      <div id="messages" class="messages"></div>
+    </main>
+
+    <footer class="inputbar">
+      <textarea id="input" rows="1" placeholder="আপনার বার্তা লিখুন... (Enter = পাঠান, Shift+Enter = নতুন লাইন)"></textarea>
+      <button id="send-btn" class="send-btn" title="পাঠান">➤</button>
+      <button id="stop-btn" class="send-btn stop hidden" title="থামান">⏹</button>
+    </footer>
+  </div>
+
+  <div id="settings-modal" class="modal hidden">
+    <div class="modal-card">
+      <h2>⚙️ সেটিংস</h2>
+      <label for="api-key">Mistral API Key</label>
+      <div class="key-row">
+        <input id="api-key" type="password" placeholder="এখানে আপনার API key পেস্ট করুন" autocomplete="off" />
+        <button id="toggle-key" class="icon-btn" title="দেখান/লুকান">👁</button>
+      </div>
+      <p class="hint">
+        ফ্রি API key পেতে যান:
+        <a href="https://console.mistral.ai/api-keys/" target="_blank" rel="noopener">console.mistral.ai</a> →
+        Sign up → API Keys → Create new key।<br />
+        Key শুধু <b>আপনার ব্রাউজারেই</b> (localStorage) সংরক্ষিত থাকে, কোথাও পাঠানো হয় না।
+      </p>
+      <div class="modal-actions">
+        <button id="clear-history" class="text-btn">চ্যাট হিস্ট্রি মুছুন</button>
+        <button id="settings-save" class="primary-btn">সংরক্ষণ করুন</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
